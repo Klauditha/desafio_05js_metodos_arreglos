@@ -11,12 +11,19 @@ const tareasJSON = [{
     id:3,
     descripcion:"lavar losa",
     completado:false
+},
+{
+    id:3,
+    descripcion:"lavar losa",
+    completado:true
 }
 ];
 
 const btnAgregar = document.getElementById("btnAgregar");
 let inputTarea = document.getElementById("inputTarea").value;
 let detalle_tareas = document.getElementById("detalle_tareas");
+let cant_total = document.getElementById("cant_total");
+let cant_realizadas = document.getElementById("cant_realizadas");
 
 const ObtenerMaximoId = () => {
     let id=0;
@@ -37,19 +44,21 @@ btnAgregar.addEventListener("click",function(){
     tareasJSON.push(nuevaTarea);
     document.getElementById("inputTarea").value = "";
     DesplegarDetalleTareas();
+    DesplegarTotal();
+    DesplegarCompletados();
 });
 
 const EliminarTarea = (idTarea) => {
     const index = tareasJSON.findIndex((tarea)=> tarea.id == idTarea);
     tareasJSON.splice(index,1);
     DesplegarDetalleTareas();
+    DesplegarTotal();
+    DesplegarCompletados();
 }
 
 const DesplegarDetalleTareas = (JSON = tareasJSON) => {
     let template = "";
-    //console.log("hola");
     JSON.forEach((tarea) => {
-        //console.log(tarea);
         template += `
             <div class="row m-1">
                 <div class="col-1">${tarea.id}</div>
@@ -64,4 +73,13 @@ const DesplegarDetalleTareas = (JSON = tareasJSON) => {
     detalle_tareas.innerHTML = template;
 }
 
+const DesplegarTotal = () => {
+    cant_total.innerHTML = tareasJSON.length;
+}
+
+const DesplegarCompletados = () => {
+    cant_realizadas.innerHTML = tareasJSON.filter(tarea => tarea.completado==true).length;
+}
 DesplegarDetalleTareas();
+DesplegarTotal();
+DesplegarCompletados()
